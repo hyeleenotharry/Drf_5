@@ -4,7 +4,7 @@ from book.models import Author
 
 
 class UserManager(BaseUserManager):
-    def create_user(self, email, username, nickname, birthday, password=None):
+    def create_user(self, email, username, nickname, birthday, profile, password=None):
         """
         Creates and saves a User with the given email, date of
         birth and password.
@@ -18,6 +18,7 @@ class UserManager(BaseUserManager):
             username=username,
             nickname=nickname,
             birthday=birthday,
+            profile=profile,
         )
 
         user.set_password(password)
@@ -51,6 +52,8 @@ class User(AbstractBaseUser):
 
     nickname = models.CharField(max_length=100)
 
+    profile = models.ImageField(blank=True, upload_to="media/userProfile")
+
     birthday = models.DateField(blank=True)
     join_date = models.DateField(auto_now_add=True)
 
@@ -64,7 +67,7 @@ class User(AbstractBaseUser):
     objects = UserManager()
 
     USERNAME_FIELD = "email"
-    REQUIRED_FIELDS = ["username", "nickname"]
+    REQUIRED_FIELDS = ["username", "nickname", "birthday"]
 
     def __str__(self):
         return self.email
