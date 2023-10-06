@@ -37,11 +37,19 @@ class Book(models.Model):
         return self.title
 
 
+num_choices = zip(range(0, 6), range(0, 6))
+
+
 class Review(models.Model):
+    title = models.CharField(max_length=250, default="")
     author = models.ForeignKey("user.User", on_delete=models.CASCADE)
     book = models.ForeignKey(
         Book, on_delete=models.CASCADE
     )  # 역참조이므로 related_at 을 써주지 않아도 review_set 이 디폴트로 있음
     content = models.TextField()
+    star = models.IntegerField(blank=True, null=True, choices=num_choices)
+    likes = models.ManyToManyField(
+        "user.User", related_name="liked_reviews", blank=True
+    )
     created_at = models.DateField(auto_now_add=True)
     updated_at = models.DateField(auto_now=True)
