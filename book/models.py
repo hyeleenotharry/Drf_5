@@ -8,13 +8,30 @@ from django.urls import reverse
 class Author(models.Model):
     name = models.CharField(max_length=100)
 
+    def __str__(self) -> str:
+        return self.name
+
+
+class Category(models.Model):
+    name = models.CharField(max_length=100)
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        verbose_name_plural = "Categories"  # 없으면 admin 페이지에 Categorys 라고 표시됨
+
 
 class Book(models.Model):
-    title = models.TextField(max_length=100)
+    title = models.CharField(max_length=100)
     content = models.TextField()
-    author = models.ForeignKey(Author, on_delete=models.DO_NOTHING)
+    cover = models.ImageField(blank=True, upload_to="media/bookCover")
+    author = models.ForeignKey(Author, null=True, on_delete=models.SET_NULL)
+    category = models.ForeignKey(
+        Category, blank=True, null=True, on_delete=models.SET_NULL
+    )
     intro = models.TextField()
-    likes = models.ManyToManyField("user.User", related_name="liked_books")
+    likes = models.ManyToManyField("user.User", related_name="liked_books", blank=True)
 
     def __str__(self) -> str:
         return self.title
@@ -28,13 +45,3 @@ class Review(models.Model):
     content = models.TextField()
     created_at = models.DateField(auto_now_add=True)
     updated_at = models.DateField(auto_now=True)
-
-
-class Category(models.Model):
-    name = models.CharField(max_length=100)
-
-    def __str__(self):
-        return self.name
-
-    class Meta:
-        verbose_name_plural = "Categories"  # 없으면 admin 페이지에 Categorys 라고 표시됨

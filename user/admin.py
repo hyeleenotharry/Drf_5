@@ -17,9 +17,11 @@ class UserCreationForm(forms.ModelForm):
         label="Password confirmation", widget=forms.PasswordInput
     )
 
+    profile = forms.ImageField(label="Profile Picture", required=False)
+
     class Meta:
         model = User
-        fields = ["email", "username", "nickname", "birthday"]
+        fields = ["email", "username", "nickname", "birthday", "profile"]
 
     def clean_password2(self):
         # Check that the two password entries match
@@ -54,6 +56,7 @@ class UserChangeForm(forms.ModelForm):
             "username",
             "nickname",
             "birthday",
+            "profile",
             "is_active",
             "is_admin",
         ]
@@ -96,6 +99,7 @@ class UserAdmin(BaseUserAdmin):
                     "email",
                     "username",
                     "nickname",
+                    "profile",
                     "birthday",
                     "follower",
                     "password1",
