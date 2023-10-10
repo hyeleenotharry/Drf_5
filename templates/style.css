@@ -120,7 +120,6 @@
     background-color: rgb(244,244,244);
     display: inline-block;
 }
-
-
-
-
+.keyword:hover{
+    background-color: rgb(255,255,255);
+}
