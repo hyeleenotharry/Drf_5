@@ -8,88 +8,27 @@
         <br><br>
         <h1 class="rec">이 달의 책</h1><br>
         <div class = "recommend">
+            {% for bk in book %}
             <div class = "book-card">
-                <img class = "book-img" src="https://bookthumb-phinf.pstatic.net/cover/137/995/13799585.jpg?type=m1&udate=20210720" alt="book1">
-                <p>책 제목 - 작가</p>
+                <img class = "book-img" src="{{ bk.cover }}" alt="...">
+                <p>{{ bk.title }} - {{bk.author}}</p>
                 <p>☆★★★★</p>
             </div>
-            <div class = "book-card">
-                <img class = "book-img" src="https://bookthumb-phinf.pstatic.net/cover/137/995/13799585.jpg?type=m1&udate=20210720" alt="book1">
-                <p>책 제목 - 작가</p>
-                <p>☆★★★★</p>
-            </div>
-            <div class = "book-card">
-                <img class = "book-img" src="https://bookthumb-phinf.pstatic.net/cover/137/995/13799585.jpg?type=m1&udate=20210720" alt="book1">
-                <p>책 제목 - 작가</p>
-                <p>☆★★★★</p>
-            </div>
-            <div class = "book-card">
-                <img class = "book-img" src="https://bookthumb-phinf.pstatic.net/cover/137/995/13799585.jpg?type=m1&udate=20210720" alt="book1">
-                <p>책 제목 - 작가</p>
-                <p>☆★★★★</p>
-            </div>
-            <div class = "book-card">
-                <img class = "book-img" src="https://bookthumb-phinf.pstatic.net/cover/137/995/13799585.jpg?type=m1&udate=20210720" alt="book1">
-                <p>책 제목 - 작가</p>
-                <p>☆★★★★</p>
-            </div>
-            <div class = "book-card">
-                <img class = "book-img" src="https://bookthumb-phinf.pstatic.net/cover/137/995/13799585.jpg?type=m1&udate=20210720" alt="book1">
-                <p>책 제목 - 작가</p>
-                <p>☆★★★★</p>
-            </div>
-            <div class = "book-card">
-                <img class = "book-img" src="https://bookthumb-phinf.pstatic.net/cover/137/995/13799585.jpg?type=m1&udate=20210720" alt="book1">
-                <p>책 제목 - 작가</p>
-                <p>☆★★★★</p>
-            </div>
-            <div class = "book-card">
-                <img class = "book-img" src="https://bookthumb-phinf.pstatic.net/cover/137/995/13799585.jpg?type=m1&udate=20210720" alt="book1">
-                <p>책 제목 - 작가</p>
-                <p>☆★★★★</p>
-            </div>
-            <div class = "book-card">
-                <img class = "book-img" src="https://bookthumb-phinf.pstatic.net/cover/137/995/13799585.jpg?type=m1&udate=20210720" alt="book1">
-                <p>책 제목 - 작가</p>
-                <p>☆★★★★</p>
-            </div>
-
+            {% endfor %}
+            
         </div>
         <div class = "bottom-box">
             
             <div class = "best-review">
                 <h1 class="rec">베스트 리뷰</h1><br>
                 <div class = "review-box">
+                    {% for rv in review %}
                     <div class = "reviews">
-                        <a class = "title">리뷰 제목</a><br>
-                        <a class = "author">작성자</a><br>
-                        <p class = "content">리뷰 내용</p>
+                        <a class = "title">{{rv.title}}</a><br>
+                        <a class = "author">{{rv.author}}</a><br>
+                        <p class = "content">{{rv.content}}</p>
                     </div>
-                    <div class = "reviews">
-                        <a class = "title">리뷰 제목</a><br>
-                        <a class = "author">작성자</a><br>
-                        <p class = "content">리뷰 내용</p>
-                    </div>
-                    <div class = "reviews">
-                        <a class = "title">리뷰 제목</a><br>
-                        <a class = "author">작성자</a><br>
-                        <p class = "content">리뷰 내용</p>
-                    </div>
-                    <div class = "reviews">
-                        <a class = "title">리뷰 제목</a><br>
-                        <a class = "author">작성자</a><br>
-                        <p class = "content">리뷰 내용</p>
-                    </div>
-                    <div class = "reviews">
-                        <a class = "title">리뷰 제목</a><br>
-                        <a class = "author">작성자</a><br>
-                        <p class = "content">리뷰 내용</p>
-                    </div>
-                    <div class = "reviews">
-                        <a class = "title">리뷰 제목</a><br>
-                        <a class = "author">작성자</a><br>
-                        <p class = "content">리뷰 내용</p>
-                    </div>
+                    {% endfor %}
                 </div>
             </div>
             <div class = "keyword-search">

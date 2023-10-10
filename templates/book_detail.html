@@ -1,5 +1,61 @@
 {% extends 'base.html' %}
-{% block title %}상세정보{% endblock %}
+{% block title %}
+  Detail
+{% endblock %}
 
 {% block content %}
+  <div class="book-box">
+    <div class="book-info">
+      <div class="book-info-top">
+        <!-- -<img src="{{ book.cover }}" alt="book-image" class="book-image"> -->
+        <img src="https://marketplace.canva.com/EAD14-l6YBI/1/0/1003w/canva-%EB%85%B8%EB%9E%80%EC%83%89-%EB%A0%88%EB%AA%AC-%EC%96%B4%EB%A6%B0%EC%9D%B4-%EC%B1%85-%ED%91%9C%EC%A7%80-l4V-rpJc8YU.jpg" alt="book-image" class="book-image" />
+        <div class="book-info-text">
+          <h1 class="book-title">{{ book.title }}</h1><br />
+          <p class="book-author">{{ book.author }} 저 / 출판사</p>
+          {% if user.user in book.likes %}
+            <!-- 좋아요 버튼 로직: myFunction()은 views.py로 작성해주세요 -->
+            <button onclick="myFunction()" class="book-liking">❤</button>
+          {% else %}
+            <button onclick="myFunction()" class="book-liking">🤍</button>
+          {% endif %}
+          <h4>판매처</h4>
+          <li class="link">
+            <a href="https://www.hanbit.co.kr/store/books/look.php?p_code=B5635758676" target="_blank">출판사</a>
+          </li>
+          <li class="link">
+            <a href="https://smartstore.naver.com/yes24book/products/8888166561" target="_blank">Yes24</a>
+          </li>
+        </div>
+        <div class="author-info">
+          <p style="font-size : 20px; font-weight: bold;">저자 소개</p>
+          <div class="author-name">
+            <img class="author-image" src="https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_1280.png" width="50px" height="50px" style="margin-right: 10px;" />
+            <div style="margin-left: 20px;">{{ book.author }}</div>
+          </div>
+          <div class="follow">
+            <!-- 작가 팔로우 버튼입니다 views.py에서 조작 필요 -->
+            <button class="author-follow">팔로우</button>
+          </div>
+        </div>
+      </div>
+      <div class="book-info-btm">
+        <div class="book-summary">
+          <h4>책 소개</h4>
+          <p>{{ book.intro }}</p>
+        </div>
+        {% for rv in book.review %}
+          <div class="book-review">
+            <h3>{{ rv.title }}</h3>
+            <h6 style="color:lightslategray; font-size: 13px;">{{ rv.author }}</h6>
+            <a style="font-size: 17px;">★★★★☆</a>
+            <p style="font-size: 16px;">{{ rv.content }}이것이 책으 ㅣ리뷰가 들어갈 장소입니다. 줄바꿈 테스트 중입니다. 불바꿈 테스트 중</p>
+            <div class="review-like">
+              <!-- 좋아요 버튼 로직: myFunction()은 views.py로 작성해주세요 -->
+              <button onclick="myFunction()" class="review-liking">❤</button>
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
 {% endblock %}
