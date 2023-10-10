@@ -29,6 +29,7 @@
 }
 .recommend{
     width: 100%;
+    flex-shrink: 0;
     height: 400px;
     padding-left: 30px;
     margin: 0 auto;
@@ -86,6 +87,8 @@
     float: left;
     background-color: rgb(244,244,244);
     display: inline-block;
+    overflow: auto;
+    wrap: nowrap;
 }
 .review-box{
     flex-wrap: nowrap;
@@ -123,3 +126,4 @@
 .keyword:hover{
     background-color: rgb(255,255,255);
 }
+.content{}
