@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+{% block title %}Home{% endblock %}
+
+
+{% block content %}
+
+    <div class="box">
+        <br><br>
+        <h1 class="rec">이 달의 책</h1><br>
+        <div class = "recommend">
+            {% for bk in book %}
+            <div class = "book-card">
+                <img class = "book-img" src="{{ bk.cover }}" alt="...">
+                <p>{{ bk.title }} - {{bk.author}}</p>
+                <p>☆★★★★</p>
+            </div>
+            {% endfor %}
+            
+        </div>
+        <div class = "bottom-box">
+            
+            <div class = "best-review">
+                <h1 class="rec">베스트 리뷰</h1><br>
+                <div class = "review-box">
+                    {% for rv in review %}
+                    <div class = "reviews">
+                        <a class = "title">{{rv.title}}</a><br>
+                        <a class = "author">{{rv.author}}</a><br>
+                        <p class = "content">{{rv.content}}</p>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+            <div class = "keyword-search">
+                <h1 class="rec">키워드 검색</h1><br>
+                <div class = "keywords">
+                    <div class = "keyword">
+                        <a class = "title" href="#">#키워드</a>
+                    </div>
+                    <div class = "keyword">
+                        <a class = "title" href="#">#키워드</a>
+                    </div>
+                    <div class = "keyword">
+                        <a class = "title" href="#">#키워드</a>
+                    </div>
+                    <div class = "keyword">
+                        <a class = "title" href="#">#키워드</a>
+                    </div>
+                    <div class = "keyword">
+                        <a class = "title" href="#">#키워드</a>
+                    </div>
+                    <div class = "keyword">
+                        <a class = "title" href="#">#키워드</a>
+                    </div>
+                    <div class = "keyword">
+                        <a class = "title" href="#">#키워드</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
