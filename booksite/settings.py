@@ -42,6 +42,8 @@ INSTALLED_APPS = [
     "corsheaders",
     "rest_framework",
     "rest_framework_simplejwt",
+    "taggit",
+    "taggit_templatetags2",
     "user",
     "book",
 ]
@@ -68,7 +70,7 @@ TEMPLATE_DIR = os.path.join(BASE_DIR, 'templates')
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        'DIRS': [TEMPLATE_DIR],
+        "DIRS": [os.path.join(BASE_DIR, "templates")],
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
@@ -186,3 +188,7 @@ MEDIAFILES_DIRS = [
 ]
 
 MEDIA_URL = "/media/"
+
+TAGGIT_CASE_INSENSITIVE = True
+
+TAGGIT_LIMIT = 10

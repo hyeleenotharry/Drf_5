@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>My Website</title>
+    
+  </head>
+  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script src="main.js"></script>
+  <body>
+    <div>
+        <div>
+            {{object.content | linebreaks}} <!-- linebreaks : \n -->
+        </div>
+        <div id="books">
+            
+        </div>
+        
+        <br>
+        <div>
+            <b>TAGS</b> <i class="fas fa-tag"></i>
+            {% load taggit_templatetags2_tags %}                                      <!-- 모듈 로딩 -->
+            {% get_tags_for_object object as "tags" %}                                <!-- 커스텀 태그를 사용해 태그 리스트(tags) 추출 -->
+            {% for tag in tags %}
+            <a href="{% url 'blog:tagged_object_list' tag.name %}">{{tag.name}}</a>
+            {% endfor %}
+            &emsp;                                                         <!-- 단어 간격 -->
+            <a href="{% url 'blog:tag_cloud' %}"> <span class="btn btn-info btn-sm">TagCloud</span></a>
+            
+        </div>
+    </div>
+  </body>
+</html>
