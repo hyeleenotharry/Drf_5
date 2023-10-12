@@ -13,18 +13,31 @@ from .serializers import (
 from taggit.serializers import TagListSerializerField, TaggitSerializer
 from django.views.generic import TemplateView, ListView
 from taggit.models import Tag
+from django.db.models import Count
 
 
 # Create your views here.
 class Main(APIView):
     def get(self, request):
         # 추천 책
-        books = Book.objects.all().order_by("likes").values()
+        books = (
+            Book.objects.all()
+            .annotate(likes_cnt=Count("likes"))
+            .order_by("likes_cnt")
+            .distinct()
+            .values()[:4]
+        )
+
         # values() 를 했기 때문에 값이 그대로 전달되지 않음 > serializerMethod 를 추가
         serializer = BookSerializer(books, many=True)
 
         # 인기 리뷰
-        reviews = Review.objects.all().order_by("likes").values()
+        reviews = (
+            Review.objects.all()
+            .annotate(likes_cnt=Count("likes"))
+            .order_by("likes_cnt")
+            .values()[:3]
+        )
 
         re_serializer = ReviewSerializer(reviews, many=True)
 

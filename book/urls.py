@@ -10,7 +10,7 @@ urlpatterns = [
     ),
     path("tag/", views.TagCloudTV.as_view(), name="tag_cloud"),
     path(
-        "search?tag=<str:book_tag>",
+        "tag/<str:tags>/",
         views.TaggedObjectLV.as_view(),
         name="tagged_object_list",
     ),

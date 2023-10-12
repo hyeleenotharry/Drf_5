@@ -1,5 +1,6 @@
 from rest_framework import serializers
-from .models import Book, Review
+from .models import Book, Review, Author
+from user.models import User
 from taggit.serializers import TagListSerializerField, TaggitSerializer
 from taggit.models import Tag
 
@@ -10,7 +11,8 @@ class ReviewSerializer(serializers.ModelSerializer):
 
     def get_author(self, obj):
         # print(obj["author_id"])
-        return obj["author_id"]
+        user = User.objects.get(id=obj["author_id"])
+        return user.email
 
     def get_book(self, obj):
         return obj["book_id"]
@@ -52,7 +54,8 @@ class BookSerializer(serializers.ModelSerializer):
 
     def get_author(self, obj):
         # print(obj["author_id"])
-        return obj["author_id"]
+        author = Author.objects.get(id=obj["author_id"])
+        return author.name
 
     def get_category(self, obj):
         return obj["category_id"]
