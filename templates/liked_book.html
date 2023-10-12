@@ -1,8 +1,9 @@
 {% extends 'base.html' %}
 {% block title %}
   좋아한 책
-{% endblock %}| 사이트 제목<div class="box">
+{% endblock %}| 사이트 제목
   {% block content %}
+  <div class="box">
     <br /><br />
     <h1 class="rec">좋아한 책</h1><br />
     <div class="book_card_box">
@@ -14,5 +15,6 @@
         </div>
       {% endfor %}
     </div>
+  </div>
   {% endblock %}
-</div>
+
