@@ -1,6 +1,8 @@
 from rest_framework import serializers
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework_simplejwt.views import TokenObtainPairView
+
+from book.serializers import BookSerializer
 from .models import User
 
 
@@ -39,3 +41,10 @@ class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
         # ...
 
         return token
+
+class LikedBookSerializer(serializers.ModelSerializer):
+    liked_books = BookSerializer(many=True)
+
+    class Meta:
+        model = User
+        field = ("liked_books",)

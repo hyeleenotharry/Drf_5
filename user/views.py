@@ -6,6 +6,7 @@ from user.models import User
 from .serializers import (
     UserSerializer,
     CustomTokenObtainPairSerializer,
+    LikedBookSerializer
 )
 from rest_framework_simplejwt.views import TokenObtainPairView
 
@@ -31,6 +32,13 @@ class FollowView(APIView):
         else:
             you.followee.add(me)
             return Response("follow했습니다.", status=status.HTTP_200_OK)
+        
+class LikedBookView(APIView):
+    def get(self, request, user_id):
+        user = get_object_or_404(User, id=user_id)
+        serializer = LikedBookSerializer(user)
+        return Response(serializer.data)
+
 
 class CustomTokenObtainPairView(TokenObtainPairView):
     # serializer 의 토큰을 커스텀한 토큰키로 봐꿔준다
