@@ -1,5 +1,6 @@
 from django.db import models
 from django.urls import reverse
+from taggit.managers import TaggableManager
 
 
 # Create your models here.
@@ -31,7 +32,11 @@ class Book(models.Model):
         Category, blank=True, null=True, on_delete=models.SET_NULL
     )
     intro = models.TextField()
+    tags = TaggableManager()
     likes = models.ManyToManyField("user.User", related_name="liked_books", blank=True)
+
+    def get_absolute_url(self):
+        return reverse("detail-book", kwargs={"book_id": self.pk})
 
     def __str__(self) -> str:
         return self.title

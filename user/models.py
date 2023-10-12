@@ -54,7 +54,7 @@ class User(AbstractBaseUser):
 
     profile = models.ImageField(blank=True, upload_to="media/userProfile")
 
-    birthday = models.DateField(blank=True)
+    birthday = models.DateField(blank=True, null=True)
     join_date = models.DateField(auto_now_add=True)
 
     follower = models.ManyToManyField(
@@ -67,7 +67,7 @@ class User(AbstractBaseUser):
     objects = UserManager()
 
     USERNAME_FIELD = "email"
-    REQUIRED_FIELDS = ["username", "nickname", "birthday"]
+    REQUIRED_FIELDS = ["username", "nickname"]
 
     def __str__(self):
         return self.email
