@@ -29,8 +29,14 @@ class TagSerializer(serializers.ModelSerializer):
 
 
 class BookTagSerializer(TaggitSerializer, serializers.ModelSerializer):
+    author = serializers.SerializerMethodField()
     # 태그 포함 시리얼라이저
     tags = TagListSerializerField()
+
+    def get_author(self, obj):
+        author = Book.objects.get(title=obj).author
+
+        return author.name
 
     class Meta:
         model = Book
@@ -53,7 +59,6 @@ class BookSerializer(serializers.ModelSerializer):
     cover = serializers.SerializerMethodField()
 
     def get_author(self, obj):
-        # print(obj["author_id"])
         author = Author.objects.get(id=obj["author_id"])
         return author.name
 

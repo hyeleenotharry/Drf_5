@@ -82,6 +82,7 @@ class UserAdmin(BaseUserAdmin):
                     "email",
                     "password",
                     "follower",
+                    "profile",
                 ],
             },
         ),

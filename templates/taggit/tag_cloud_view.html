@@ -11,39 +11,66 @@
 {% endblock %}
 
 {% block extra-style %}
-<style type="text/css">
+<style>
+    * {
+        font-family: 'Gowun Dodum', sans-serif;
+    }
+
     .tag-cloud {
-        width: 40%;
+        width: 60%;
         margin-left: 30px;
-        text-align: center;
-        padding: 5px;
+        text-align: left;
+        /* padding: 5px;
         border: 1px solid orange;
-        background-color: #ffc;
+        background-color: #ffc; */
     }
 
     .tag-1 {
-        font-size: 12px;
-    }
-
-    .tag-2 {
-        font-size: 14px;
-    }
-
-    .tag-3 {
+        align-items: center;
+        background-color: #FFFFFF;
+        border: 1px solid rgba(0, 0, 0, 0.1);
+        border-radius: .25rem;
+        box-shadow: rgba(0, 0, 0, 0.02) 0 1px 3px 0;
+        box-sizing: border-box;
+        color: rgba(0, 0, 0, 0.85);
+        cursor: pointer;
+        display: inline-flex;
+        font-family: system-ui, -apple-system, system-ui, "Helvetica Neue", Helvetica, Arial, sans-serif;
         font-size: 16px;
+        font-weight: 600;
+        justify-content: center;
+        line-height: 1.25;
+        min-height: 3rem;
+        padding: calc(.875rem - 1px) calc(1.5rem - 1px);
+        text-decoration: none;
+        transition: all 250ms;
+        user-select: none;
+        -webkit-user-select: none;
+        touch-action: manipulation;
+        vertical-align: baseline;
+        width: auto;
     }
 
-    .tag-4 {
-        font-size: 18px;
+    .tag-1:hover,
+    .tag-1:focus {
+        border-color: rgba(0, 0, 0, 0.15);
+        box-shadow: rgba(0, 0, 0, 0.1) 0 4px 12px;
+        color: rgba(0, 0, 0, 0.65);
+
     }
 
-    .tag-5 {
-        font-size: 20px;
+    .tag-1:hover {
+        transform: translateY(-1px);
     }
 
-    .tag-6 {
-        font-size: 24px;
+    .tag-1:active {
+        background-color: #F0F0F1;
+        border-color: rgba(0, 0, 0, 0.15);
+        box-shadow: rgba(0, 0, 0, 0.06) 0 2px 4px;
+        color: rgba(0, 0, 0, 0.65);
+        transform: translateY(0);
     }
+
 
     @font-face {
         font-family: 'LotteMartDream';
@@ -172,6 +199,18 @@
     }
 
     /* 메뉴바 - 메뉴1 끝 */
+    .mytitle {
+        width: 100%;
+        height: 450px;
+        background-image: linear-gradient(0deg, rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url(https://movie-phinf.pstatic.net/20210715_95/1626338192428gTnJl_JPEG/movie_image.jpg);
+        background-position: center;
+        background-size: cover;
+        color: rgb(78, 78, 78);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
 </style>
 {% endblock %}
 
@@ -193,27 +232,23 @@
         <nav class="menu-bar__menu-1">
             <ul class="float-gird">
                 <li>
-                    <a style="text-decoration: none; font-size: large;" href="#" class="block">
-
+                    <a style="text-decoration: none; font-size: large;" href="/book/mainpage/3/" class="block">
                         <span>로맨스</span>
                     </a>
                 </li>
                 <li>
-                    <a style="text-decoration: none; font-size: large;" href="#" class="block">
-
+                    <a style="text-decoration: none; font-size: large;" href="/book/mainpage/1/" class="block">
                         <span>판타지</span>
                     </a>
                 </li>
                 <li>
-                    <a style="text-decoration: none; font-size: large;" href="#" class="block">
-
+                    <a style="text-decoration: none; font-size: large;" href="/book/mainpage/2/" class="block">
                         <span>추리/미스터리</span>
                     </a>
 
                 </li>
                 <li>
-                    <a style="text-decoration: none; font-size: large;" href="#" class="block">
-
+                    <a style="text-decoration: none; font-size: large;" href="/book/mainpage/4/" class="block">
                         <span>일반</span>
                     </a>
                 </li>
@@ -221,24 +256,24 @@
         </nav>
     </div>
 </header>
-<h1>이달의 책</h1>
+
 <br>
-<div id="books" style="display: flex; margin-left: 20%;">
+<div id="books" class="mytitle" style="display:flex; flex-direction: row;">
 </div>
 <div style="display: flex;">
     <div>
-        <h1>인기 리뷰</h1>
+        <h1 style="margin-left: 40px; margin-top: 20px; margin-bottom: 20px;">인기 리뷰</h1>
         <div id="reviews">
         </div>
     </div>
     <div>
-        <h1>태그</h1>
+        <h1 style="margin-left: 40px; margin-top: 20px; margin-bottom: 20px;">태그</h1>
         <div class="tag-cloud">
             {% load taggit_templatetags2_tags %}
             {% get_tagcloud as tags %}
             {% for tag in tags %}
-            <span class="tag-{{tag.weight|floatformat:0}}">
-                <a href="{% url 'tagged_object_list' tag.name %}">{{tag.name}}({{tag.num_times}})</a>
+            <span class="tag-1" style="margin-left: 20px; margin-bottom: 20px;">
+                <a href="{% url 'tagged_object_list' tag.name %}"># {{tag.name}}({{tag.num_times}})</a>
             </span> <!--tag.name 인자를 넘겨 지정 -->
             {% endfor %}
         </div>

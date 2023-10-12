@@ -19,14 +19,22 @@ class UserSerializer(serializers.ModelSerializer):
 
         return user
 
-    def update(self, validated_data):
-        user = super().create(validated_data)
-        password = user.password
+    def update(self, instance, validated_data):
+        instance.email = validated_data["email"]
+        instance.username = validated_data["username"]
+        instance.nickname = validated_data["nickname"]
+        password = validated_data["password"]
         # set password 로 해싱을 해줘야함
-        user.set_password(password)
-        user.save()
+        instance.set_password(password)
+        instance.save()
 
-        return user
+        return instance
+
+
+class UserCreateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = "__all__"
 
 
 class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):

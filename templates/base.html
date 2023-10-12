@@ -1,130 +1,80 @@
-{% load static %}
 <!DOCTYPE html>
-<html lang="eng">
+<html lang="en">
+{% load static %}
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="referrer" content="no-referrer" />
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.11.6/umd/popper.min.js"
-        integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3"
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Gowun+Dodum&amp;display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Martian+Mono:wght@400;800&display=swap" rel="stylesheet" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
         crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"
-        integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3"
-        crossorigin="anonymous"></script>
-
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.1/font/bootstrap-icons.css">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
-
-    <!-- feedlist dropup btn -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-
-   {% block extra-style %}{% endblock %}
-
-    <title>{% block title %}{% endblock %} | 피드 페이지</title>
-    
+    <script src="{% static 'login.js' %}"></script>
+    {% block script %}{% endblock %}
+    <link rel="stylesheet" href="style.css">
+    <title>{% block title %}{% endblock %} | RUNNING DOG </title>
+    {% block extra-style %}{% endblock %}
 </head>
-{% block script %}{% endblock %}
+
 <body>
-
-    <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg fixed-top navbar-light bg-light"
-        style="box-shadow: 0 1px 3px 0 rgba(0,0,0,0.50);">
-        <!-- Container wrapper -->
-        <div class="container-fluid">
-
-
-            <!-- Toggle button -->
-            <button class="navbar-toggler" type="button" data-mdb-toggle="collapse"
-                data-mdb-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
-                aria-label="Toggle navigation">
-                <i class="fas fa-bars"></i>
-            </button>
-
-            <!-- Collapsible wrapper -->
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <!-- Left links -->
-                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                    <li class="nav-item" style="font-size: larger;">
-                        <a class="nav-link active" aria-current="page" href="/feedlist/">Home</a>
-                    </li>
-                    {% if user.is_authenticated %}
-                    <li class="nav-item" style="font-size: larger;">
-                        <a class="nav-link active" aria-current="page" href="/myfeed/{{ user.id }}">나의 피드</a>
-                    </li>
-
-                    {% else %}
-                    <li class="nav-item" style="font-size: larger;">
-                        <a class="nav-link active" aria-current="page" href="/login/">로그인</a>
-                    </li>
-                    <li class="nav-item" style="font-size: larger;">
-                        <a class="nav-link active" aria-current="page" href="/signup/">회원 가입</a>
-                    </li>
-                    {% endif %}
-                </ul>
-                <!-- Left links -->
-
-
-
-                <!-- Navbar dropdown -->
-                {% if user.is_authenticated %}
-                <li class="nav-item dropdown" style="float: right; list-style: none;">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
-                        data-bs-toggle="dropdown" aria-expanded="false" style="margin-top: 10px;">
-                        {% if user.image %}
-                        <img src="{{ user.image.url }}" class="rounded-circle " height='30' width='30'>
-                        {% endif %}
-                    </a>
-                    <!-- Dropdown menu -->
-                    <ul class="dropdown-menu dropdown-menu-end p-1" aria-labelledby="navbarDropdown">
-                        <li><a class="dropdown-item" href="/mypage/{{ user.id }}">마이페이지</a></li>
-                        <li>
-                            <hr class="dropdown-divider" />
-                        </li>
-                        <li><a class="dropdown-item" method="post" href="/logout/">Log Out</a></li>
-                        <li>
-                            <hr class="dropdown-divider" />
-                        </li>
-                        <li><a class="dropdown-item" method="get" href="/user/">User List</a></li>
-                    </ul>
-                </li>
-                {% endif %}
-                </ul>
-
+    <!-- 상단 네비게이션 -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container">
+            <a class="navbar-brand">책 리뷰 페이지</a>
+            <div class="nav-item">
+                <a class="nav-link" href="/book/tag/">Home</a>
             </div>
-            <!-- Collapsible wrapper -->
-        </div>
-        <!-- Container wrapper -->
-    </nav>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4"
-        crossorigin="anonymous"></script>
 
-    <!-- Navbar -->
+            <div class="d-flex">
+                <input class="form-control me-2" type="text" placeholder="검색어를 입력하세요.">
+                <button class="btn btn-primary" type="button" style="width: 100px;">검색</button>
+            </div>
+            <form class="form-inline my-2 my-lg-0">
+                {% if not user.is_authenticated %}
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item active">
+                        <a class="nav-link" href="/user/login"> 로그인 <span class="sr-only"></span></a>
+                    </li>
+                    <li class="nav-item active">
+                        <a class="nav-link" href="/user/signup"> 회원가입 <span class="sr-only"></span></a>
+                    </li>
+                </ul>
+                {% else %}
+
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item disabled">
+                        <span class="nav-link"> {{ user.username }} 님 반갑습니다. </span>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button"
+                            aria-expanded="false">Dropdown</a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="/liked_book/{{ user.id }}">좋아한 책</a></li>
+
+                            <li><a class="dropdown-item" href="/new_book">책 등록</a></li>
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
+                            <li><a class="dropdown-item" onclick="showProfile()">내
+                                    정보</a></li>
+                            <li><a class="dropdown-item" onclick="logout()">로그아웃</a></li>
+                        </ul>
+                    </li>
+                </ul>
+                {% endif %}
+            </form>
+        </div>
+    </nav>
     {% block content %}
 
     {% endblock %}
-    <div class="footer-basic">
-        <footer>
-            <div class="social">
-                <a href="https://github.com/SEVIL-K/giga_jo_project.git"><i class="bi bi-github"></i></a>
-                <a href="#"><i class="bi bi-twitter"></i></a>
-                <a href="#"><i class="bi bi-instagram"></i></a>
-                <a href="https://www.notion.so/2-S-A-d4cb1d2f2fa54a69ba4698808ccbdf45"><i class="bi bi-files"></i></a>
-            </div>
-            <ul class="list-inline">
-                <li class="list-inline-item"><a href="/">Home</a></li>
-                <li class="list-inline-item"><a href="/mypage/{{ user.id }}">My Page</a></li>
-                <li class="list-inline-item"><a href="https://github.com/SEVIL-K/giga_jo_project.git">About</a></li>
-                <li class="list-inline-item"><a href="#">Privacy Policy</a></li>
-            </ul>
-            <p class="copyright">독수리4형제 © 2023</p>
-        </footer>
-    </div>
+
 </body>
 
 </html>
