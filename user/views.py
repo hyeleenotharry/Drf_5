@@ -1,6 +1,8 @@
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
+from rest_framework.generics import get_object_or_404
+from user.models import User
 from .serializers import (
     UserSerializer,
     CustomTokenObtainPairSerializer,
@@ -19,6 +21,16 @@ class UserView(APIView):
             {"message": f"${serializer.errors}"}, status=status.HTTP_400_BAD_REQUEST
         )
 
+class FollowView(APIView):
+    def post(self, request, user_id):
+        you = get_object_or_404(User, id=user_id)
+        me = request.user
+        if me in you.followee.all():
+            you.followee.remove(me)
+            return Response("unfollow했습니다.", status=status.HTTP_200_OK)
+        else:
+            you.followee.add(me)
+            return Response("follow했습니다.", status=status.HTTP_200_OK)
 
 class CustomTokenObtainPairView(TokenObtainPairView):
     # serializer 의 토큰을 커스텀한 토큰키로 봐꿔준다
