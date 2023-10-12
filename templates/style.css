@@ -129,7 +129,7 @@
 .keyword:hover{
     background-color: rgb(255,255,255);
 }
-<style>
+
     .book-box{
         width: 80%;
         height: 100%;
@@ -190,10 +190,7 @@
         text-decoration: none;
         color: black;
     }
-    a:hover{
-        color: blue;
-        font-style: italic;
-    }
+    
     a:active{
         color: red;
     }
@@ -246,6 +243,8 @@
     .author-follow:hover{
         background-color: #ffffff;
     }
+
+
     .new_book_box {
         width: 80%;
         height: 100%;
@@ -474,3 +473,4 @@
         line-height: 100%;
         margin-left: 10%;
       }
+

@@ -1,38 +1,284 @@
 <!-- 태그 클라우드를 보여주는 템플릿 파일 -->
 {% extends 'base.html' %}
 
-{% block title %}taggit_cloud.html{% endblock %}
+{% load static %}
+
+{% block title %}메인 페이지{% endblock %}
+
+{% block script %}
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script src="{% static 'main.js' %}"></script>
+{% endblock %}
 
 {% block extra-style %}
-<style type="text/css">
-    .tag-cloud {
-        width: 40%;
-        margin-left: 30px;
-        text-align: center;
-        padding : 5px;
-        border: 1px solid orange;
-        background-color: #ffc;
+<style>
+    * {
+        font-family: 'Gowun Dodum', sans-serif;
     }
-    .tag-1{font-size: 12px;}
-    .tag-2{font-size: 14px;}
-    .tag-3{font-size: 16px;}
-    .tag-4{font-size: 18px;}
-    .tag-5{font-size: 20px;}
-    .tag-6{font-size: 24px;}
+
+    .tag-cloud {
+        width: 60%;
+        margin-left: 30px;
+        text-align: left;
+        /* padding: 5px;
+        border: 1px solid orange;
+        background-color: #ffc; */
+    }
+
+    .tag-1 {
+        align-items: center;
+        background-color: #FFFFFF;
+        border: 1px solid rgba(0, 0, 0, 0.1);
+        border-radius: .25rem;
+        box-shadow: rgba(0, 0, 0, 0.02) 0 1px 3px 0;
+        box-sizing: border-box;
+        color: rgba(0, 0, 0, 0.85);
+        cursor: pointer;
+        display: inline-flex;
+        font-family: system-ui, -apple-system, system-ui, "Helvetica Neue", Helvetica, Arial, sans-serif;
+        font-size: 16px;
+        font-weight: 600;
+        justify-content: center;
+        line-height: 1.25;
+        min-height: 3rem;
+        padding: calc(.875rem - 1px) calc(1.5rem - 1px);
+        text-decoration: none;
+        transition: all 250ms;
+        user-select: none;
+        -webkit-user-select: none;
+        touch-action: manipulation;
+        vertical-align: baseline;
+        width: auto;
+    }
+
+    .tag-1:hover,
+    .tag-1:focus {
+        border-color: rgba(0, 0, 0, 0.15);
+        box-shadow: rgba(0, 0, 0, 0.1) 0 4px 12px;
+        color: rgba(0, 0, 0, 0.65);
+
+    }
+
+    .tag-1:hover {
+        transform: translateY(-1px);
+    }
+
+    .tag-1:active {
+        background-color: #F0F0F1;
+        border-color: rgba(0, 0, 0, 0.15);
+        box-shadow: rgba(0, 0, 0, 0.06) 0 2px 4px;
+        color: rgba(0, 0, 0, 0.65);
+        transform: translateY(0);
+    }
+
+
+    @font-face {
+        font-family: 'LotteMartDream';
+        font-style: normal;
+        font-weight: 500;
+        src: url('//cdn.jsdelivr.net/korean-webfonts/1/corps/lottemart/LotteMartDream/LotteMartDreamMedium.woff2') format('woff2'), url('//cdn.jsdelivr.net/korean-webfonts/1/corps/lottemart/LotteMartDream/LotteMartDreamMedium.woff') format('woff');
+    }
+
+    @font-face {
+        font-family: 'LotteMartDream';
+        font-style: normal;
+        font-weight: 700;
+        src: url('//cdn.jsdelivr.net/korean-webfonts/1/corps/lottemart/LotteMartDream/LotteMartDreamBold.woff2') format('woff2'), url('//cdn.jsdelivr.net/korean-webfonts/1/corps/lottemart/LotteMartDream/LotteMartDreamBold.woff') format('woff');
+    }
+
+    @font-face {
+        font-family: 'LotteMartDream';
+        font-style: normal;
+        font-weight: 500;
+        src: url('//cdn.jsdelivr.net/korean-webfonts/1/corps/lottemart/LotteMartDream/LotteMartDreamLight.woff2') format('woff2'), url('//cdn.jsdelivr.net/korean-webfonts/1/corps/lottemart/LotteMartDream/LotteMartDreamLight.woff') format('woff');
+    }
+
+    html {
+        font-family: 'LotteMartDream', sans-serif;
+    }
+
+    /* 폰트 끝 */
+    /* 노말라이즈 시작 */
+    body,
+    ul,
+    li {
+        margin: 0;
+        padding: 0;
+        list-style: none;
+    }
+
+    a {
+        color: inherit;
+        text-decoration: none;
+    }
+
+    /* 노말라이즈 끝 */
+    /* 라이브러리 시작 */
+    .con {
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .bg-black {
+        background-color: black;
+    }
+
+    .color-white {
+        color: white;
+    }
+
+    .text-align-center {
+        text-align: center;
+    }
+
+    .float-gird::after {
+        content: "";
+        display: block;
+        clear: both;
+    }
+
+    .float-gird>* {
+        float: left;
+        box-sizing: border-box;
+    }
+
+    /* 라이브러리 끝 */
+    /* 커스텀 시작 */
+    .con-min-width {
+        min-width: 1200px;
+    }
+
+    .con {
+        width: 1200px;
+    }
+
+    .block {
+        display: block;
+    }
+
+    /* 커스텀 끝 */
+    /* logo 시작 */
+    .logo {
+        font-size: 3rem;
+        display: inline-block;
+        padding: 20px 0;
+
+    }
+
+    /* logo 끝 */
+    /* logo bar 시작 */
+    .logo-bar {
+        background-color: rgb(0, 0, 0);
+        color: white;
+    }
+
+    /* logo bar 끝 */
+
+    /* 메뉴바 시작 */
+    .menu-bar {
+        background-color: black;
+        color: white;
+    }
+
+    /* 메뉴바 끝 */
+    /* 메뉴바 - 메뉴1 시작 */
+    .menu-bar__menu-1 ul>li {
+        width: 25%;
+    }
+
+    .menu-bar__menu-1 ul>li>a {
+        font-size: 1.5rem;
+        text-align: center;
+        padding: 20px 0;
+        border-radius: 10px 10px 0 0;
+    }
+
+    .menu-bar__menu-1 ul>li:hover>a {
+        background-color: white;
+        color: black;
+    }
+
+    /* 메뉴바 - 메뉴1 끝 */
+    .mytitle {
+        width: 100%;
+        height: 450px;
+        background-image: linear-gradient(0deg, rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url(https://movie-phinf.pstatic.net/20210715_95/1626338192428gTnJl_JPEG/movie_image.jpg);
+        background-position: center;
+        background-size: cover;
+        color: rgb(78, 78, 78);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
 </style>
 {% endblock %}
 
 {% block content %}
-    <h1>Blog Tag Cloud</h1>
-    <br>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
 
-    <div class="tag-cloud">
-        {% load taggit_templatetags2_tags %}
-        {% get_tagcloud as tags %}
-        {% for tag in tags %}
-        <span class="tag-{{tag.weight|floatformat:0}}">
-            <a href="{% url 'tagged_object_list' tag.name %}">{{tag.name}}({{tag.num_times}})</a>
-        </span> <!--tag.name 인자를 넘겨 지정 -->
-        {% endfor %}
+
+<header class="logo-bar con-min-width">
+    <div class="com text-align-center">
+        <a style="text-decoration: none;" href="./" class="logo">
+            <i class="fab fa-jenkins"></i>
+            <span>MAIN</span>
+        </a>
     </div>
+</header>
+
+<header class="menu-bar con-min-width" style="margin-top: -10px;">
+    <div class="con">
+        <nav class="menu-bar__menu-1">
+            <ul class="float-gird">
+                <li>
+                    <a style="text-decoration: none; font-size: large;" href="/book/mainpage/3/" class="block">
+                        <span>로맨스</span>
+                    </a>
+                </li>
+                <li>
+                    <a style="text-decoration: none; font-size: large;" href="/book/mainpage/1/" class="block">
+                        <span>판타지</span>
+                    </a>
+                </li>
+                <li>
+                    <a style="text-decoration: none; font-size: large;" href="/book/mainpage/2/" class="block">
+                        <span>추리/미스터리</span>
+                    </a>
+
+                </li>
+                <li>
+                    <a style="text-decoration: none; font-size: large;" href="/book/mainpage/4/" class="block">
+                        <span>일반</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+</header>
+
+<br>
+<div id="books" class="mytitle" style="display:flex; flex-direction: row;">
+</div>
+<div style="display: flex;">
+    <div>
+        <h1 style="margin-left: 40px; margin-top: 20px; margin-bottom: 20px;">인기 리뷰</h1>
+        <div id="reviews">
+        </div>
+    </div>
+    <div>
+        <h1 style="margin-left: 40px; margin-top: 20px; margin-bottom: 20px;">태그</h1>
+        <div class="tag-cloud">
+            {% load taggit_templatetags2_tags %}
+            {% get_tagcloud as tags %}
+            {% for tag in tags %}
+            <span class="tag-1" style="margin-left: 20px; margin-bottom: 20px;">
+                <a href="{% url 'tagged_object_list' tag.name %}"># {{tag.name}}({{tag.num_times}})</a>
+            </span> <!--tag.name 인자를 넘겨 지정 -->
+            {% endfor %}
+        </div>
+    </div>
+
+</div>
+
 {% endblock %}

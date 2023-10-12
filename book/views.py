@@ -1,8 +1,11 @@
 from rest_framework.views import APIView
 from rest_framework.response import Response
+from django.http import JsonResponse
 from rest_framework.generics import get_object_or_404
-from rest_framework import status, permissions
+from rest_framework.renderers import TemplateHTMLRenderer
+from rest_framework import status, permissions, generics
 from .models import Book, Review, Author, TaggableManager
+from user.models import User
 from .serializers import (
     BookSerializer,
     ReviewSerializer,
@@ -12,19 +15,34 @@ from .serializers import (
 )
 from taggit.serializers import TagListSerializerField, TaggitSerializer
 from django.views.generic import TemplateView, ListView
+from django.views.generic.detail import DetailView
 from taggit.models import Tag
+from django.db.models import Count, Aggregate, Avg
+from django.forms.models import model_to_dict
 
 
 # Create your views here.
 class Main(APIView):
     def get(self, request):
         # 추천 책
-        books = Book.objects.all().order_by("likes").values()
+        books = (
+            Book.objects.all()
+            .annotate(likes_cnt=Count("likes"))
+            .order_by("likes_cnt")
+            .distinct()
+            .values()[:4]
+        )
+
         # values() 를 했기 때문에 값이 그대로 전달되지 않음 > serializerMethod 를 추가
         serializer = BookSerializer(books, many=True)
 
         # 인기 리뷰
-        reviews = Review.objects.all().order_by("likes").values()
+        reviews = (
+            Review.objects.all()
+            .annotate(likes_cnt=Count("likes"))
+            .order_by("likes_cnt")
+            .values()[:3]
+        )
 
         re_serializer = ReviewSerializer(reviews, many=True)
 
@@ -44,21 +62,102 @@ class Main(APIView):
         return Response(content)
 
 
-class CategoryDetail(APIView):
-    def get(self, request, category_id):
-        books = Book.objects.filter(category_id=category_id).values()
-        print(books)
-        serializer = BookSerializer(books, many=True)
+class CategoryDetail(ListView):
+    template_name = "book_category.html"
+    model = Book
 
-        return Response(serializer.data, status=status.HTTP_200_OK)
+    def get_queryset(self):
+        return Book.objects.filter(category_id=self.kwargs.get("category_id"))
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["cagegory_id"] = self.kwargs["category_id"]
+        return context
 
 
-class BookDetail(APIView):
-    def get(self, request, book_id):
+class BookDetail(generics.RetrieveAPIView):
+    renderer_classes = (TemplateHTMLRenderer,)
+
+    def get(self, request, book_id, *args, **kwargs):
         book = get_object_or_404(Book, id=book_id)
+        star_book = Review.objects.filter(book_id=book_id).values()
+        i = len(star_book)
+        for rv in range(i):
+            star = ""
+            author_id = star_book[rv]["author_id"]
+            author_name = get_object_or_404(User, id=author_id).email
+            star_book[rv]["author_id"] = author_name
+
+            star_cnt = star_book[rv]["star"]
+            if star_cnt:
+                for j in range(star_cnt):
+                    star += "⭐"
+                star_book[rv]["star"] = star
+
+        review_cnt = len(star_book)
+        # print(review_cnt)
+        avg_star = int(star_book.aggregate(Avg("star", default=0))["star__avg"])
+        # print(avg_star)
+
         serializer = BookTagSerializer(book)
 
-        return Response(serializer.data, status=status.HTTP_200_OK)
+        context = {
+            "book_data": serializer.data,
+            "avg_star_range": range(
+                avg_star
+            ),  # 장고 템플릿에서는 range 를 쓸 수 없기 때문에 미리 range()를 해서 넘겨줘야 함
+            "review_cnt": review_cnt,
+            "reviews": star_book,
+        }
+
+        return Response(
+            context,
+            status=status.HTTP_200_OK,
+            template_name="book_detail.html",
+        )
+
+
+# class BookDetail(ListView):
+#     template_name = "book_detail.html"
+#     context_object_name = "book_detail_data"
+
+#     def get_queryset(self):
+#         book_id = self.kwargs["book_id"]
+#         # print(book_id)
+#         book = get_object_or_404(Book, id=book_id)
+#         print(book)
+#         star_book = Review.objects.filter(book_id=book_id).values()
+#         i = len(star_book)
+
+#         for rv in range(i):
+#             star = ""
+#             author_id = star_book[rv]["author_id"]
+#             author_name = get_object_or_404(User, id=author_id).email
+#             star_book[rv]["author_id"] = author_name
+
+#             star_cnt = star_book[rv]["star"]
+#             if star_cnt:
+#                 for j in range(star_cnt):
+#                     star += "⭐"
+#                 star_book[rv]["star"] = star
+
+#         review_cnt = len(star_book)
+#         avg_star = int(star_book.aggregate(Avg("star", default=0))["star__avg"])
+
+#         data = {
+#             "book_data": book,
+#             "avg_star_range": range(avg_star),
+#             "review_cnt": review_cnt,
+#             "reviews": star_book,
+#         }
+#         return data
+
+#     def render_to_response(self, context):
+#         book = context["book_detail_data"]
+#         # print(book)
+#         serialized_book = BookSerializer(book)
+#         print(serialized_book.data)
+#         return Response(serialized_book.data)
 
 
 class ReviewCreate(APIView):

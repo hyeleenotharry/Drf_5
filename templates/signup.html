@@ -1,135 +1,144 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
 
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Martian+Mono:wght@400;800&display=swap" rel="stylesheet" />
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
 
-    <style>
-        body {
-        background-color: black;
-        }
-        .wrap {
-        margin-left: 10%;
-        margin-top: 5%;
-        background-color: rgba(255, 255, 255, 0.5);
-        border-radius: 20px;
-        padding: 20px;
-        width: 600px;
-        height: 700px;
-        text-align: center;
-        }
-        .button {
-        font-family: 'Martian Mono', monospace;
-        margin-bottom: 40px;
-        width: 300px;
-        height: 120px;
-        border-radius: 10px;
-        font-size: 30px;
-        color: rgba(0, 0, 0, 0.7);
-        display: inline-block;
-        text-decoration: none;
-        background-color: rgba(255, 255, 255, 0.5);
-        border: 2px solid rgba(255, 255, 255, 0.5);
-        text-align: center;
-        line-height: 120px;
-        }
-        .button_box {
-        margin-top: 10%;
-        text-align: center;
-        }
-        .form-area {
-        margin-top: 10%;
-        
-        }
-        .form-group {
-        margin-bottom: 20px;
-        }
-        .label{
-        font-family: 'Martian Mono', monospace;
-        }
-        .form-control {
-        font-family: 'Martian Mono', monospace;
-        width:240px;
-        height:30px;
-        font-size:25px;
-        margin-left: 20px;
-        }
-        .btn-primary {
-            font-family: 'Martian Mono', monospace;
-            margin-bottom: 20px;
-            margin-top: 40px;
-            width: 200px;
-            height: 60px;
-            border-radius: 10px;
-            font-size: 20px;
-            color: rgba(0,0,0,0.7);
-            display: inline-block;
-            text-decoration: none;
-            background-color: rgba( 255, 255, 255, 0.5 );
-            border: 2px solid rgba( 255, 255, 255, 0.5 );
-            text-align: center;
-            line-height: 60px;
-            margin-right : 10px;
-            margin-left : 10px;
-        }
-        .btn-primary:hover {
-            background-color: rgba( 255, 255, 255, 0.7 );
-            border: 2px solid rgba( 255, 255, 255, 0.7 );
-        }
-    </style>
-  </head>
-  <body>
-    
-    <div class="wrap">
-      <br>
-      <h1 style="text-align: center; font-weight: bold; font-family: 'Martian Mono', monospace;;">Signup</h1>
-      <form class="form-area" method="post" action="/signup/">
-        {% csrf_token %}
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Martian+Mono:wght@400;800&display=swap" rel="stylesheet" />
 
-        <div class="form-group">
-            <label for="username" style="font-family: 'Martian Mono', monospace; font-size: 25px;">Username</label>
-            <input type="text" class="form-control" id="username" name="username">
-        </div>
+  <style>
+    body {
+      background-color: black;
+    }
 
-        <div class="form-group">
-            <label for="email" style="font-family: 'Martian Mono', monospace; font-size: 25px;">Emailㅤㅤ</label>
-            <input type="email" class="form-control" id="email" name="email">
-          </div>
+    .wrap {
+      margin-left: 10%;
+      margin-top: 5%;
+      background-color: rgba(255, 255, 255, 0.5);
+      border-radius: 20px;
+      padding: 20px;
+      width: 600px;
+      height: 700px;
+      text-align: center;
+    }
 
-        <div class="form-group">
-            <label for="nickname" style="font-family: 'Martian Mono', monospace; font-size: 25px;">Nickname</label>
-            <input type="text" class="form-control" id="nickname" name="nickname">
-        </div>  
+    .button {
+      font-family: 'Martian Mono', monospace;
+      margin-bottom: 40px;
+      width: 300px;
+      height: 120px;
+      border-radius: 10px;
+      font-size: 30px;
+      color: rgba(0, 0, 0, 0.7);
+      display: inline-block;
+      text-decoration: none;
+      background-color: rgba(255, 255, 255, 0.5);
+      border: 2px solid rgba(255, 255, 255, 0.5);
+      text-align: center;
+      line-height: 120px;
+    }
 
-        <div class="form-group">
-            <label for="fullname" style="font-family: 'Martian Mono', monospace; font-size: 25px;">Fullname</label>
-            <input type="text" class="form-control" id="fullname" name="fullname">
-        </div>
+    .button_box {
+      margin-top: 10%;
+      text-align: center;
+    }
 
-        <div class="form-group">
-          <label for="password" style="font-family: 'Martian Mono', monospace; font-size: 25px;">Password</label>
-          <input type="password" class="form-control" id="password" name="password" />
-        </div>
-        
-        <div class="form-group">
-            <label for="password2" style="font-family: 'Martian Mono', monospace; font-size: 25px;">PW Check</label>
-            <input type="password" class="form-control" id="password2" name="password2" />
-        </div>
+    .form-area {
+      margin-top: 10%;
 
-        <div class="form-group">
-            <label for="birthday" style="font-family: 'Martian Mono', monospace; font-size: 25px;">Birthday</label>
-            <input type="date" class="form-control" id="birthday" name="birthday" />
-        </div>
-        <div>
-          <button type="submit" class="btn-primary">Signup</button>
-          <button type="button" class="btn-primary" onclick="location.href='/login'">Login</button>
-        </div>
-      </form>
-    </div>
+    }
 
-  </body>
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    .label {
+      font-family: 'Martian Mono', monospace;
+    }
+
+    .form-control {
+      font-family: 'Martian Mono', monospace;
+      width: 240px;
+      height: 30px;
+      font-size: 25px;
+      margin-left: 20px;
+    }
+
+    .btn-primary {
+      font-family: 'Martian Mono', monospace;
+      margin-bottom: 20px;
+      margin-top: 40px;
+      width: 200px;
+      height: 60px;
+      border-radius: 10px;
+      font-size: 20px;
+      color: rgba(0, 0, 0, 0.7);
+      display: inline-block;
+      text-decoration: none;
+      background-color: rgba(255, 255, 255, 0.5);
+      border: 2px solid rgba(255, 255, 255, 0.5);
+      text-align: center;
+      line-height: 60px;
+      margin-right: 10px;
+      margin-left: 10px;
+    }
+
+    .btn-primary:hover {
+      background-color: rgba(255, 255, 255, 0.7);
+      border: 2px solid rgba(255, 255, 255, 0.7);
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="wrap">
+    <br>
+    <h1 style="text-align: center; font-weight: bold; font-family: 'Martian Mono', monospace;;">Signup</h1>
+    <form class="form-area" method="post" action="/signup/">
+      {% csrf_token %}
+
+      <div class="form-group">
+        <label for="username" style="font-family: 'Martian Mono', monospace; font-size: 25px;">Username</label>
+        <input type="text" class="form-control" id="username" name="username">
+      </div>
+
+      <div class="form-group">
+        <label for="email" style="font-family: 'Martian Mono', monospace; font-size: 25px;">Emailㅤㅤ</label>
+        <input type="email" class="form-control" id="email" name="email">
+      </div>
+
+      <div class="form-group">
+        <label for="nickname" style="font-family: 'Martian Mono', monospace; font-size: 25px;">Nickname</label>
+        <input type="text" class="form-control" id="nickname" name="nickname">
+      </div>
+
+
+
+      <div class="form-group">
+        <label for="password" style="font-family: 'Martian Mono', monospace; font-size: 25px;">Password</label>
+        <input type="password" class="form-control" id="password" name="password" />
+      </div>
+
+      <div class="form-group">
+        <label for="password2" style="font-family: 'Martian Mono', monospace; font-size: 25px;">PW Check</label>
+        <input type="password" class="form-control" id="password2" name="password2" />
+      </div>
+
+      <div class="form-group">
+        <label for="birthday" style="font-family: 'Martian Mono', monospace; font-size: 25px;">Birthday</label>
+        <input type="date" class="form-control" id="birthday" name="birthday" />
+      </div>
+      <div>
+        <button type="submit" class="btn-primary">Signup</button>
+        <button type="button" class="btn-primary" onclick="location.href='/login'">Login</button>
+      </div>
+    </form>
+  </div>
+
+</body>
+
 </html>

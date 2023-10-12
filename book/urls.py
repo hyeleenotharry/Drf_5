@@ -2,15 +2,15 @@ from django.urls import path
 from . import views
 
 urlpatterns = [
-    path("mainpage/", views.Main().as_view(), name="mainpage"),
+    path("mainpage/", views.Main.as_view(), name="mainpage"),
     path(
         "mainpage/<int:category_id>/",
-        views.CategoryDetail().as_view(),
+        views.CategoryDetail.as_view(),
         name="category-book",
     ),
     path("tag/", views.TagCloudTV.as_view(), name="tag_cloud"),
     path(
-        "search?tag=<str:book_tag>",
+        "tag/<str:tags>/",
         views.TaggedObjectLV.as_view(),
         name="tagged_object_list",
     ),

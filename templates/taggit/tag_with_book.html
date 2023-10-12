@@ -1,14 +1,36 @@
 {% extends "base.html" %}
-{% block title %}taggit_post_list.html{% endblock %}
+{% block title %}태그 검색{% endblock %}
+{% block extra-style %}
+<style>
+    * {
+        font-family: 'Gowun Dodum', sans-serif;
+    }
+
+
+    .card {
+        box-shadow: 5px 5px 5px;
+    }
+</style>
+{% endblock %}
+
 {% block content %}
 
-    <h1>Posts for tag - {{ tagname }}</h1>
-    <br>
+<h1 style="margin-left: 40px; margin-top: 20px;">#{{ tags }}</h1>
+<br>
 
-    {% for book in object_list %}
-        <h2><a href='{{ book.get_absolute_url }}'>{{book.title}}</a></h2>
-        {{ post.modify_dt|date:"N d, Y" }}
-        <p>{{ book.content }}</p>
-    {% endfor %}
+{% for book in object_list %}
+<a href="{% url 'detail-book' book.id %}" style="text-decoration: none; color: rgb(41, 41, 41);">
+    <div class="card" style="width: 242px; margin-left: 90px;">
+        <img class="card-img-top" src="/media/{{book.cover}}" alt="Card image cap" style="width: 240px; height: 300px;">
+        <div class="card-body">
+            <h5 class="card-title">{{book.title}}</h5>
+            <p class="card-text" style="color: rgb(110, 110, 110);">{{book.author}}</p>
+
+        </div>
+    </div>
+</a>
+
+{% endfor %}
+
 
 {% endblock %}

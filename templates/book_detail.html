@@ -1,61 +1,265 @@
 {% extends 'base.html' %}
 {% block title %}
-  Detail
+Detail
+{% endblock %}
+{% block script %}
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const reviewForm = document.getElementById("reviewForm");
+
+    reviewForm.addEventListener("submit", function (event) {
+      event.preventDefault();
+
+      // 폼 데이터 가져오기
+      const formData = new FormData(reviewForm);
+
+      // FormData를 JSON 형식으로 직렬화
+      const jsonPayload = {};
+      formData.forEach((value, key) => {
+        jsonPayload[key] = value;
+      });
+
+      // JSON 데이터를 서버로 전송
+      fetch(reviewForm.action, {
+        method: "POST",
+        body: JSON.stringify(jsonPayload),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      })
+        .then((response) => {
+          if (response.ok) {
+            // 성공적으로 전송됨
+            console.log("평가가 성공적으로 등록되었습니다.");
+          } else {
+            // 오류 처리
+            console.error("평가 등록 중 오류 발생");
+          }
+        })
+        .catch((error) => {
+          console.error("평가 등록 중 오류 발생:", error);
+        });
+    });
+  });
+</script>
+
+{% endblock %}
+
+{% block extra-style %}
+<style>
+  * {
+    font-family: 'Gowun Dodum', sans-serif;
+  }
+
+
+  .card {
+    box-shadow: 5px 5px 5px;
+  }
+
+  .book-box {
+    margin: 20px 30px 20px 40px;
+  }
+
+  .book-info-text {
+    margin-top: 20px;
+    margin-left: 30px;
+  }
+
+  .author-info {
+    margin-left: 360px;
+    margin-top: 20px;
+  }
+
+  .author-follow {
+    font-family: PlusJakartaSans, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Cantarell, Helvetica Neue, Ubuntu, sans-serif;
+    font-size: 1rem;
+    align-items: center;
+    height: 30px;
+    border-radius: 0.4rem;
+    font-weight: 600;
+    padding: 0 1.2rem;
+    color: #ddd;
+    border: none;
+    box-shadow: 0 .5rem 1rem rgba(143, 142, 142, 0.15) !important;
+    background: #000000;
+  }
+
+
+  .author-follow:hover {
+    background: #2b2a2a;
+  }
+
+  container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1.5rem;
+  }
+
+  .modal {
+    display: flex;
+    margin-left: 40px;
+    margin-top: 600px;
+    flex-direction: column;
+    width: 100%;
+    max-width: 700px;
+    background-color: #d0d0d0;
+    box-shadow: 0 15px 30px 0 rgba(0, 125, 171, 0.15);
+    border-radius: 10px;
+  }
+
+  .modal__header {
+    padding: 1rem 1.5rem;
+    border-bottom: 1px solid #ddd;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .modal__body {
+    padding: 1rem 1rem;
+  }
+
+  .modal__footer {
+    padding: 0 1.5rem 1.5rem;
+  }
+
+  .modal__title {
+    font-weight: 700;
+    font-size: 1.25rem;
+  }
+
+  .mypost {
+    width: 95%;
+    max-width: 500px;
+    margin: 60px auto 0px 45%;
+    padding: 20px;
+    box-shadow: 0px 0px 3px 0px gray;
+
+    /* display: none; */
+  }
+
+  .mybtns {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+
+    margin-top: 20px;
+  }
+
+  .mybtns>button {
+    margin-right: 10px;
+  }
+</style>
 {% endblock %}
 
 {% block content %}
-  <div class="book-box">
-    <div class="book-info">
-      <div class="book-info-top">
-        <!-- -<img src="{{ book.cover }}" alt="book-image" class="book-image"> -->
-        <img src="https://marketplace.canva.com/EAD14-l6YBI/1/0/1003w/canva-%EB%85%B8%EB%9E%80%EC%83%89-%EB%A0%88%EB%AA%AC-%EC%96%B4%EB%A6%B0%EC%9D%B4-%EC%B1%85-%ED%91%9C%EC%A7%80-l4V-rpJc8YU.jpg" alt="book-image" class="book-image" />
+<div class="book-box">
+  <div class="book-info">
+    <div class="book-info-top">
+      <!-- -<img src="{{ book.cover }}" alt="book-image" class="book-image"> -->
+      <div style="display: flex;">
+        <img src="{{ book_data.cover }}" alt="book-image" class="book-image" style="width: 200px; height: 250;" />
         <div class="book-info-text">
-          <h1 class="book-title">{{ book.title }}</h1><br />
-          <p class="book-author">{{ book.author }} 저 / 출판사</p>
+          <h1 class="book-title">{{ book_data.title }}</h1><br />
+          <p class="book-author">{{ book_data.author }} 저
+          <p>
+            {% for i in avg_star_range %}
+            ⭐
+            {% endfor %}
+            ({{ review_cnt }})
+          </p>
           {% if user.user in book.likes %}
-            <!-- 좋아요 버튼 로직: myFunction()은 views.py로 작성해주세요 -->
-            <button onclick="myFunction()" class="book-liking">❤</button>
+          <!-- 좋아요 버튼 로직: myFunction()은 views.py로 작성해주세요 -->
+          <button onclick="myFunction()" class="book-liking">❤</button>
           {% else %}
-            <button onclick="myFunction()" class="book-liking">🤍</button>
+          <button onclick="myFunction()" class="book-liking">🤍</button>
           {% endif %}
-          <h4>판매처</h4>
-          <li class="link">
-            <a href="https://www.hanbit.co.kr/store/books/look.php?p_code=B5635758676" target="_blank">출판사</a>
-          </li>
-          <li class="link">
-            <a href="https://smartstore.naver.com/yes24book/products/8888166561" target="_blank">Yes24</a>
-          </li>
         </div>
         <div class="author-info">
           <p style="font-size : 20px; font-weight: bold;">저자 소개</p>
-          <div class="author-name">
-            <img class="author-image" src="https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_1280.png" width="50px" height="50px" style="margin-right: 10px;" />
-            <div style="margin-left: 20px;">{{ book.author }}</div>
-          </div>
-          <div class="follow">
-            <!-- 작가 팔로우 버튼입니다 views.py에서 조작 필요 -->
-            <button class="author-follow">팔로우</button>
-          </div>
-        </div>
-      </div>
-      <div class="book-info-btm">
-        <div class="book-summary">
-          <h4>책 소개</h4>
-          <p>{{ book.intro }}</p>
-        </div>
-        {% for rv in book.review %}
-          <div class="book-review">
-            <h3>{{ rv.title }}</h3>
-            <h6 style="color:lightslategray; font-size: 13px;">{{ rv.author }}</h6>
-            <a style="font-size: 17px;">★★★★☆</a>
-            <p style="font-size: 16px;">{{ rv.content }}이것이 책으 ㅣ리뷰가 들어갈 장소입니다. 줄바꿈 테스트 중입니다. 불바꿈 테스트 중</p>
-            <div class="review-like">
-              <!-- 좋아요 버튼 로직: myFunction()은 views.py로 작성해주세요 -->
-              <button onclick="myFunction()" class="review-liking">❤</button>
+          <div class="author-name" style="display: flex;">
+            <img class="author-image" src="https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_1280.png"
+              width="50px" height="50px" style="margin-right: 10px;" />
+            <div style="margin-left: 20px; height: 20px;">
+              {{ book_data.author }}
+              <div class="follow" style="height: 30px;">
+                <!-- 작가 팔로우 버튼입니다 views.py에서 조작 필요 -->
+                <button class="author-follow" style="width: 100px; margin-top: 10px; margin-left: -10px;">팔로우</button>
+              </div>
             </div>
           </div>
-        {% endfor %}
+
+        </div>
+      </div>
+
+      <h4 style="margin-top: 20px;">판매처</h4>
+      <li class="link">
+        <a href="https://www.hanbit.co.kr/store/books/look.php?p_code=B5635758676" target="_blank">출판사</a>
+      </li>
+      <li class="link">
+        <a href="https://smartstore.naver.com/yes24book/products/8888166561" target="_blank">Yes24</a>
+      </li>
+
+
+    </div>
+    <div class="book-info-btm">
+      <div class="book-summary">
+        <h4 style="margin-top: 20px;">책 소개</h4>
+        <p>{{ book_data.intro }}</p>
+      </div>
+      <div class="container">
+        <div class="modal" style="width: 900px; height: 400px;">
+          {% for rv in reviews %}
+          <div class="card"
+            style="width: 30rem; box-shadow: 5px 5px 5px;margin-bottom: 10px; margin-left: 20px; margin-top: 20px;">
+            <div class="card-body">
+              <h5 class="card-title">{{ rv.title }}</h5>
+              <p>{{ rv.star }}</p>
+              <h6 class="card-subtitle mb-2 text-muted">{{ rv.author_id }}</h6>
+              <p class="card-text">{{ rv.content }}</p>
+
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+      <div class="mypost" id="post-box">
+        <form id="reviewForm" method="POST" action="http://127.0.0.1:8000/book/{{book_data.id}}/review/">
+          <div class="form-floating mb-3">
+            <input id="title" name="title" type="text" class="form-control" placeholder="name@example.com">
+            <label>제목</label>
+          </div>
+          <div class="input-group mb-3">
+            <label class="input-group-text" for="inputGroupSelect01">별점</label>
+            <select class="form-select" id="star" name="star">
+              <option selected>-- 선택하기 --</option>
+              <option value="1">⭐</option>
+              <option value="2">⭐⭐</option>
+              <option value="3">⭐⭐⭐</option>
+              <option value="4">⭐⭐⭐⭐</option>
+              <option value="5">⭐⭐⭐⭐⭐</option>
+            </select>
+          </div>
+          <div class="form-floating">
+            <textarea id="content" name="content" class="form-control" placeholder="Leave a comment here"></textarea>
+            <label for="floatingTextarea2">코멘트</label>
+          </div>
+          <div class="mybtns">
+            <button type="submit" class="btn btn-dark">기록하기</button>
+
+          </div>
+        </form>
       </div>
     </div>
   </div>
+</div>
 {% endblock %}
