@@ -1,21 +1,71 @@
 {% extends 'base.html' %}
 {% block title %}
-Detail
-{% endblock %}
-{% load static %}
-{% block script %}
-<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-<!-- <script src="{% static 'profile.js' %}"></script> -->
-{% endblock %}
 
-{% block extra-style %}
-<style>
-    * {
-        font-family: 'Gowun Dodum', sans-serif;
-    }
-</style>
-{% endblock %}
 
+  My Page
+{% endblock %}
 {% block content %}
+  <div class="big_box">
+    <div class="mypage_box">
+      <br /><br />
+      <h1 class="rec">내 정보</h1><br />
+      <div class="profile-box">
+        <div class="profile-info">
+          <div class="profile-img">
+            <img src="https://i.namu.wiki/i/M0j6sykCciGaZJ8yW0CMumUigNAFS8Z-dJA9h_GKYSmqqYSQyqJq8D8xSg3qAz2htlsPQfyHZZMmAbPV-Ml9UA.webp" alt="프로필 사진" id="output" width="200" height="200" style="border-radius: 50%;;" />
+            <div class="input-button">
+              <button type="button" class="btn btn-primary" onclick="onClickUpload()" id="image" style="margin-top: 20px;">프로필 사진 변경</button>
+              <input id="get-file" type="file" accept="image/*" onchange="loadFile(event)" style="visibility: hidden;" />
+              <script>
+                function onClickUpload() {
+                  let myInput = document.getElementById('get-file')
+                  myInput.click()
+                }
+                var loadFile = function (event) {
+                  var output = document.getElementById('output')
+                  output.style.display = ''
+                  output.src = URL.createObjectURL(event.target.files[0])
+                  output.onload = function () {
+                    URL.revokeObjectURL(output.src)
+                  }
+                }
+              </script>
+            </div>
+          </div>
+          <div class="profile-text">
+            <h3>{{ user.username }}</h3>
+            <h5>{{ user.email }}</h5>
+            <h5>{{ user.nickname }}</h5>
+            <h5>{{ user.birthday }}</h5>
+            <h5>{{ user.password }}</h5>
+            <button type="button" class="btn btn-primary" style="margin-top: 20px; float: right; margin-bottom: 30px;">정보 수정</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="following_author">
+      <h2 class="rec"><br /><br />팔로잉 작가</h2><br />
+      {% for aut in author %}
+      <div class="authors">
+        <img src="https://i.namu.wiki/i/M0j6sykCciGaZJ8yW0CMumUigNAFS8Z-dJA9h_GKYSmqqYSQyqJq8D8xSg3qAz2htlsPQfyHZZMmAbPV-Ml9UA.webp" alt="프로필 사진" width="20%" height="20%" style="border-radius: 50%;;" />
+        <div class="following_author_text">
+          <h5 style="margin: 0 auto;">{{ aut.author }}</h5>
+          <button type="button" class="btn btn-primary" onclick="changeBtnName()" id="followbtn" style="margin: 0 auto;">팔로우 취소</button>
+        </div>
+      </div>
 
+      <script>
+        function changeBtnName() {
+          const btnElement = document.getElementById('followbtn')
+          if (btnElement.innerText == '팔로우 취소') {
+            btnElement.innerText = '팔로우'
+          } else {
+            btnElement.innerText = '팔로우 취소'
+          }
+        }
+      </script>
+      {% endfor %}
+    </div>
+  </div>
 {% endblock %}
+

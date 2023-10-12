@@ -216,3 +216,13 @@ class TaggedObjectLV(ListView):
         context = super().get_context_data(**kwargs)
         context["tags"] = self.kwargs["tags"]
         return context
+
+class BookLike(APIView):
+        def post(self, request, book_id):
+            book = get_object_or_404(Book, id=book_id)
+            if request.user in book.likes.all():
+                book.likes.remove(request.user)
+                return Response("좋아요", status=status.HTTP_200_OK)
+            else:
+                book.likes.add(request.user)
+                return Response("좋아요 취소", status=status.HTTP_200_OK)

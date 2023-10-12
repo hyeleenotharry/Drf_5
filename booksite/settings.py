@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     "taggit_templatetags2",
     "user",
     "book",
+    'taggit_serializer',
 ]
 
 REST_FRAMEWORK = {

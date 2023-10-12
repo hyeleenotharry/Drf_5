@@ -1,5 +1,70 @@
 {% extends 'base.html' %}
-{% block title %}책 등록{% endblock %}
-
-{% block content %}
+{% block title %}
+  New
 {% endblock %}
+{% block content %}
+  <div class="new_book_box">
+    <br /><br />
+    <h1>책 등록</h1>
+    <div class="new_book_box_top">
+      <div class="img-box">
+        <div class="input-box">
+          <input type="file" class="input_file" id="image" name="image" accept="image/*" onchange="loadFile(event)" />
+        </div>
+        <div class="mb-2" style="float: left;">
+          <img id="output" style="width: 100%; height: max-content; display: none;" />
+          <script>
+            var loadFile = function (event) {
+              var output = document.getElementById('output')
+              output.style.display = ''
+              output.src = URL.createObjectURL(event.target.files[0])
+              output.onload = function () {
+                URL.revokeObjectURL(output.src)
+              }
+            }
+          </script>
+        </div>
+      </div>
+      <div class="info_input">
+        <h5>제목</h5>
+        <input type="text" class="input_info" id="book_title" name="book_title" placeholder="제목" />
+        <h5>작가</h5>
+        <input type="text" class="input_info" id="book_title" name="book_title" placeholder="작가" />
+        <h5>출판사</h5>
+        <input type="text" class="input_info" id="book_title" name="book_title" placeholder="출판사" />
+        <h5>판매처</h5>
+        <input type="text" class="input_info" id="book_title" name="book_title" placeholder="판매처" />
+        <h5>카테고리</h5>
+        <div class="input_info">
+          <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">Dropdown</a>
+          <ul class="dropdown-menu">
+            <li>
+              <a class="dropdown-item" href="#">코미디</a>
+            </li>
+            <li>
+              <a class="dropdown-item" href="#">추리/스릴러</a>
+            </li>
+            <li>
+              <a class="dropdown-item" href="#">로맨스</a>
+            </li>
+            <li>
+              <a class="dropdown-item" href="#">판타지</a>
+            </li>
+            <li>
+              <a class="dropdown-item" href="#">기타</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div class="book_content_box">
+        <h5>책 소개</h5>
+        <textarea class="book_content" id="book_content" name="book_content" placeholder="책 소개"></textarea>
+      </div><<<<<<< HEAD
+      <button type="submit" class="btn-submit" style="float:right; margin-right: 10%;">작성하기</button>
+    </div>
+
+    {% endblock %}=======<div>
+      <button type="submit" class="btn-submit" style="float:right; margin-right: 10%;">작성하기</button>
+    </div>
+  </div>
+{% endblock %}>>>>>>> 58f1b729a49fb12724c34d47f3c437978808d8fa
