@@ -22,4 +22,5 @@ urlpatterns = [
         views.ReviewUpdate.as_view(),
         name="review-update",
     ),
+    path("<book_id>/like/", views.BookLike.as_view(), name="book_like")
 ]
