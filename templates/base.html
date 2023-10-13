@@ -40,7 +40,7 @@
                 <button class="btn btn-primary" type="button" style="width: 100px;">검색</button>
             </div>
             <form class="form-inline my-2 my-lg-0">
-                {% if not user.is_authenticated %}
+                {% if not request.user.is_authenticated %}
                 <ul class="navbar-nav mr-auto">
                     <li class="nav-item active">
                         <a class="nav-link" href="/user/login"> 로그인 <span class="sr-only"></span></a>
@@ -53,7 +53,7 @@
 
                 <ul class="navbar-nav mr-auto">
                     <li class="nav-item disabled">
-                        <span class="nav-link"> {{ user.username }} 님 반갑습니다. </span>
+                        <span class="nav-link"> {{ request.user.username }} 님 반갑습니다. </span>
                     </li>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button"
@@ -65,7 +65,7 @@
                             <li>
                                 <hr class="dropdown-divider">
                             </li>
-                            <li><a class="dropdown-item" onclick="showMock()">내
+                            <li><a class="dropdown-item" onclick="showProfile()">내
                                     정보</a></li>
                             <li><a class="dropdown-item" onclick="logout()">로그아웃</a></li>
                         </ul>
