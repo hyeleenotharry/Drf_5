@@ -20,7 +20,7 @@
 
 {% for book in object_list %}
 <a href="{% url 'detail-book' book.id %}" style="text-decoration: none; color: rgb(41, 41, 41);">
-    <div class="card" style="width: 242px; margin-left: 90px;">
+    <div class="card" style="width: 242px; margin-left: 90px; margin-bottom: 20px;">
         <img class="card-img-top" src="/media/{{book.cover}}" alt="Card image cap" style="width: 240px; height: 300px;">
         <div class="card-body">
             <h5 class="card-title">{{book.title}}</h5>
