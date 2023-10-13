@@ -4,9 +4,7 @@ from book.models import Author
 
 
 class UserManager(BaseUserManager):
-    def create_user(
-        self, email, username, nickname, birthday, profile, img, password=None
-    ):
+    def create_user(self, email, username, nickname, birthday, profile, password=None):
         """
         Creates and saves a User with the given email, date of
         birth and password.
@@ -21,26 +19,29 @@ class UserManager(BaseUserManager):
             nickname=nickname,
             birthday=birthday,
             profile=profile,
-            img=img,
         )
 
         user.set_password(password)
         user.save(using=self._db)
         return user
 
-    def create_superuser(self, username, nickname, email, birthday, password=None):
+    def create_superuser(
+        self, username, nickname, email, birthday, profile, password=None
+    ):
         """
         Creates and saves a superuser with the given email, date of
         birth and password.
         """
         user = self.create_user(
-            email,
-            username,
-            nickname,
-            birthday,
-            password=password,
+            email=email,
+            username=username,
+            nickname=nickname,
+            birthday=birthday,
+            profile=profile
+            # password=password,
         )
         user.is_admin = True
+        user.set_password(password)
         user.save(using=self._db)
         return user
 
@@ -75,7 +76,7 @@ class User(AbstractBaseUser):
     objects = UserManager()
 
     USERNAME_FIELD = "email"
-    REQUIRED_FIELDS = ["username", "nickname"]
+    REQUIRED_FIELDS = ["username", "nickname", "birthday", "profile"]
 
     def __str__(self):
         return self.email
