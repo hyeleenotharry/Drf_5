@@ -34,6 +34,9 @@ class Main(APIView):
             .values()[:4]
         )
 
+        print("Test")
+        print("Hello World I'm doing great I'm fine thx")
+
         # values() 를 했기 때문에 값이 그대로 전달되지 않음 > serializerMethod 를 추가
         serializer = BookSerializer(books, many=True)
 
