@@ -25,7 +25,7 @@ from django.forms.models import model_to_dict
 class Main(APIView):
     def get(self, request):
         print("hello Im test")
-        print("this is also test")
+        print("this is also test1111")
         # 추천 책
         books = (
             Book.objects.all()
