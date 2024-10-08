@@ -24,7 +24,7 @@ from django.forms.models import model_to_dict
 # Create your views here.
 class Main(APIView):
     def get(self, request):
-        print("hello Im test")
+        print("hello")
         print("this is also test1111")
         # 추천 책
         books = (
